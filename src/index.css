@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* SketsaBerantai design system — Deep Forest Green + Lemon Yellow */
+
+@layer base {
+  :root {
+    /* Brand */
+    --background: 152 49% 15%;        /* Deep Forest #1B4332 */
+    --foreground: 60 100% 96%;
+
+    --surface: 152 45% 20%;
+    --surface-elevated: 152 40% 25%;
+
+    --card: 152 45% 20%;
+    --card-foreground: 60 100% 96%;
+
+    --popover: 152 45% 20%;
+    --popover-foreground: 60 100% 96%;
+
+    --primary: 60 100% 50%;            /* Lemon Yellow #FFFF00 */
+    --primary-foreground: 152 49% 15%;
+
+    --secondary: 152 35% 30%;
+    --secondary-foreground: 60 100% 96%;
+
+    --muted: 152 30% 25%;
+    --muted-foreground: 60 30% 88%;
+
+    --accent: 60 100% 50%;
+    --accent-foreground: 152 49% 15%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 152 30% 30%;
+    --input: 152 35% 25%;
+    --ring: 60 100% 50%;
+
+    --radius: 0.875rem;
+
+    --sidebar-background: 152 49% 15%;
+    --sidebar-foreground: 60 100% 96%;
+    --sidebar-primary: 60 100% 50%;
+    --sidebar-primary-foreground: 152 49% 15%;
+    --sidebar-accent: 152 35% 25%;
+    --sidebar-accent-foreground: 60 100% 96%;
+    --sidebar-border: 152 30% 30%;
+    --sidebar-ring: 60 100% 50%;
+
+    --shadow-glow: 0 0 40px hsl(60 100% 50% / 0.25);
+  }
+
+  .dark {
+    /* Same palette in dark — game is always dark green */
+    --background: 152 49% 15%;
+    --foreground: 60 100% 96%;
+    --card: 152 45% 20%;
+    --card-foreground: 60 100% 96%;
+    --popover: 152 45% 20%;
+    --popover-foreground: 60 100% 96%;
+    --primary: 60 100% 50%;
+    --primary-foreground: 152 49% 15%;
+    --secondary: 152 35% 30%;
+    --secondary-foreground: 60 100% 96%;
+    --muted: 152 30% 25%;
+    --muted-foreground: 60 30% 88%;
+    --accent: 60 100% 50%;
+    --accent-foreground: 152 49% 15%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 152 30% 30%;
+    --input: 152 35% 25%;
+    --ring: 60 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html, body {
+    overscroll-behavior-y: contain;
+    overscroll-behavior-x: contain;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Fredoka', 'Poppins', sans-serif;
+    @apply tracking-tight;
+  }
+
+  /* Disable iOS double-tap zoom on UI buttons */
+  button, [role="button"] {
+    touch-action: manipulation;
+  }
+}
+
+@layer components {
+  .btn-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  .ink-canvas {
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}

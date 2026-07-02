@@ -4,8 +4,8 @@ import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { generateRoomCode, setSession } from "@/lib/game";
 import { toast } from "sonner";
-import { Plus, LogIn, Sparkles, ArrowRight, X } from "lucide-react";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Plus, LogIn, Sparkles, ArrowRight } from "lucide-react";
+
 import { SfxControl } from "@/components/SfxControl";
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 
 export default function HomeScreen({ onJoined }: Props) {
   const [nickname, setNickname] = useState("");
-  const [hubOpen, setHubOpen] = useState(false);
+
   const [roomCode, setRoomCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [mode, setMode] = useState<"choose" | "create" | "join">("choose");
@@ -177,11 +177,10 @@ export default function HomeScreen({ onJoined }: Props) {
 
         <SfxControl />
 
-        <button
-          type="button"
-          onClick={() => setHubOpen(true)}
+        <a
+          href="https://arsepat-game.web.id/"
           className="group relative block w-full text-left bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/40 transition"
-          aria-label="Buka Arsepat Game Hub di sini"
+          aria-label="Buka Arsepat Game Hub"
         >
           <div className="relative h-28 sm:h-32">
             <img
@@ -209,36 +208,7 @@ export default function HomeScreen({ onJoined }: Props) {
               Dari tebak-tebakan, kuis, hingga party game — semua bikin ketawa bareng teman.
             </p>
           </div>
-        </button>
-
-        <Dialog open={hubOpen} onOpenChange={setHubOpen}>
-          <DialogContent className="max-w-full sm:max-w-3xl w-[100vw] sm:w-[95vw] h-[100dvh] sm:h-[90vh] p-0 gap-0 overflow-hidden flex flex-col">
-            <DialogTitle className="sr-only">Arsepat Game Hub</DialogTitle>
-            <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-card">
-              <div className="flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-primary" />
-                <span className="text-sm font-bold text-foreground">Arsepat Game Hub</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setHubOpen(false)}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-secondary text-secondary-foreground text-xs font-semibold hover:opacity-90"
-                aria-label="Tutup Arsepat Game Hub"
-              >
-                <X className="w-3.5 h-3.5" /> Tutup
-              </button>
-            </div>
-            {hubOpen && (
-              <iframe
-                src="https://arsepat-game.web.id/"
-                title="Arsepat Game Hub"
-                className="flex-1 w-full bg-background"
-                referrerPolicy="no-referrer"
-                loading="lazy"
-              />
-            )}
-          </DialogContent>
-        </Dialog>
+        </a>
 
         <div className="text-center text-xs text-muted-foreground px-4">
           Minimal 3 pemain untuk pengalaman terbaik 🎨

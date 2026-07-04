@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Screen, BrandLogo, PrimaryButton } from "@/components/Screen";
 import { supabase } from "@/integrations/supabase/client";
 import { clearSession, getSession, leaveRoomCleanup } from "@/lib/game";
-import { Copy, Crown, LogOut, Users } from "lucide-react";
+import { Copy, Crown, LogOut, Users, Share2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface Props {
@@ -103,6 +103,20 @@ export default function LobbyScreen({ onStart, onLeave }: Props) {
     toast.success("Kode disalin!");
   }
 
+  function shareLink() {
+    const url = `${window.location.origin}?room=${session.roomCode}`;
+    if (navigator.share) {
+      navigator.share({
+        title: "Sketsa Berantai — Yuk main bareng!",
+        text: `Gabung di ruang ${session.roomCode}, kita main Sketsa Berantai bareng!`,
+        url,
+      }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(url);
+      toast.success("Link ruang disalin!");
+    }
+  }
+
   return (
     <Screen>
       <div className="flex-1 flex flex-col max-w-md w-full mx-auto gap-5 animate-float-in">
@@ -122,14 +136,23 @@ export default function LobbyScreen({ onStart, onLeave }: Props) {
           <div className="font-mono text-4xl font-bold text-primary tracking-widest text-center">
             {session.roomCode}
           </div>
-          <button
-            onClick={copyCode}
-            className="mx-auto inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/15 text-primary text-xs font-semibold hover:bg-primary/25 transition"
-            aria-label="Salin Kode Ruang"
-          >
-            <Copy className="w-4 h-4" /> Salin Kode
-          </button>
-          <p className="text-xs text-muted-foreground">Bagikan kode ini ke teman-temanmu</p>
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            <button
+              onClick={copyCode}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/15 text-primary text-xs font-semibold hover:bg-primary/25 transition"
+              aria-label="Salin Kode Ruang"
+            >
+              <Copy className="w-4 h-4" /> Salin Kode
+            </button>
+            <button
+              onClick={shareLink}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/15 text-primary text-xs font-semibold hover:bg-primary/25 transition"
+              aria-label="Bagikan link ruang"
+            >
+              <Share2 className="w-4 h-4" /> Share Link
+            </button>
+          </div>
+          <p className="text-xs text-muted-foreground">Bagikan kode atau link langsung ke teman</p>
         </div>
 
         <div className="bg-card border border-border rounded-2xl p-5 space-y-3">

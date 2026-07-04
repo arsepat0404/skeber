@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Screen, BrandLogo, PrimaryButton, SecondaryButton } from "@/components/Screen";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
-import { generateRoomCode, setSession } from "@/lib/game";
+import { generateRoomCode, setSession, getPlayerName, setPlayerName } from "@/lib/game";
 import { toast } from "sonner";
 import { Plus, LogIn, Sparkles, ArrowRight } from "lucide-react";
 
@@ -10,14 +10,18 @@ import { SfxControl } from "@/components/SfxControl";
 
 interface Props {
   onJoined: () => void;
+  prefillRoomCode?: string;
 }
 
-export default function HomeScreen({ onJoined }: Props) {
-  const [nickname, setNickname] = useState("");
+export default function HomeScreen({ onJoined, prefillRoomCode = "" }: Props) {
+  // Ambil nama terakhir dari localStorage agar pemain tidak perlu ketik ulang
+  // tapi tetap bisa diubah setiap saat
+  const [nickname, setNickname] = useState(() => getPlayerName());
 
-  const [roomCode, setRoomCode] = useState("");
+  const [roomCode, setRoomCode] = useState(prefillRoomCode);
   const [busy, setBusy] = useState(false);
-  const [mode, setMode] = useState<"choose" | "create" | "join">("choose");
+  // Kalau ada prefillRoomCode dari share link, langsung ke mode join
+  const [mode, setMode] = useState<"choose" | "create" | "join">(prefillRoomCode ? "join" : "choose");
 
   function validateNick() {
     const n = nickname.trim();
@@ -50,6 +54,7 @@ export default function HomeScreen({ onJoined }: Props) {
 
       await supabase.from("rooms").update({ host_id: player.id, num_players: 1 }).eq("id", room.id);
 
+      setPlayerName(nick); // simpan nama untuk prefill berikutnya
       setSession({ playerId: player.id, nickname: nick, roomId: room.id, roomCode: code });
       toast.success(`Ruang dibuat! Kode: ${code}`);
       onJoined();
@@ -100,6 +105,7 @@ export default function HomeScreen({ onJoined }: Props) {
 
       await supabase.from("rooms").update({ num_players: seat + 1 }).eq("id", room.id);
 
+      setPlayerName(nick); // simpan nama untuk prefill berikutnya
       setSession({ playerId: player.id, nickname: nick, roomId: room.id, roomCode: code });
       toast.success(`Bergabung ke ruang ${code}!`);
       onJoined();

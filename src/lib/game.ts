@@ -32,6 +32,17 @@ export function clearSession() {
   localStorage.removeItem(KEY_PLAYER);
 }
 
+export const KEY_NAME = "sb_player_name";
+export function getPlayerName(): string {
+  return localStorage.getItem(KEY_NAME) ?? "";
+}
+export function setPlayerName(name: string) {
+  if (name.trim()) localStorage.setItem(KEY_NAME, name.trim());
+}
+export function clearPlayerName() {
+  localStorage.removeItem(KEY_NAME);
+}
+
 export function generateRoomCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let s = "";
